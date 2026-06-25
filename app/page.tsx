@@ -1,65 +1,136 @@
-import Image from "next/image";
+'use client'
+
+import { useState } from "react";
 
 export default function Home() {
+  const [wage, setWage] = useState("");
+  const [hours, setHours] = useState("");
+  const [overtimeRate, setOvertimeRate] = useState<number | null>(null);
+  const [overtimePay, setOvertimePay] = useState<number | null>(null);
+
+  const calculate = () => {
+    const w = Number(wage);
+    const h = Number(hours);
+
+    const rate = w * 1.25;
+    const pay = rate * h;
+
+    setOvertimeRate(rate);
+    setOvertimePay(pay);
+  };
+
+  const reset = () => {
+    setWage("");
+    setHours("");
+    setOvertimeRate(null);
+    setOvertimePay(null);
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
+      <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow p-6 w-full">
+
+        <h1 className="text-3xl font-bold text-center mb-6">
+          残業代計算ツール
+        </h1>
+
+        <div className="space-y-4">
+
+          <input
+            type="number"
+            placeholder="時給（円）"
+            value={wage}
+            onChange={(e) => setWage(e.target.value)}
+            className="w-full border p-3 rounded"
+          />
+
+          <input
+            type="number"
+            placeholder="残業時間"
+            value={hours}
+            onChange={(e) => setHours(e.target.value)}
+            className="w-full border p-3 rounded"
+          />
+
+          <button
+            onClick={calculate}
+            className="w-full bg-blue-600 text-white p-3 rounded"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            計算する
+          </button>
+
+          <button
+            onClick={reset}
+            className="w-full bg-gray-400 text-white p-3 rounded"
           >
-            Documentation
-          </a>
+            リセット
+          </button>
+
+          {overtimeRate !== null && overtimePay !== null && (
+            <div className="mt-6 space-y-2 text-lg font-bold">
+              <p>残業時給：¥{overtimeRate.toLocaleString()}</p>
+              <p>残業代合計：¥{overtimePay.toLocaleString()}</p>
+            </div>
+          )}
         </div>
-      </main>
+<section className="mt-10 bg-white rounded-xl p-6">
+  <h2 className="text-xl font-bold mb-4">
+    残業代を事前に確認することが重要な理由
+  </h2>
+
+  <p className="mb-3">
+    残業をした場合、通常の時給より割増された金額で残業代が計算されます。
+  </p>
+
+  <p className="mb-3">
+    事前に残業代を確認することで、月の収入見込みや働き方を把握しやすくなります。
+  </p>
+
+  <p>
+    この残業代計算ツールでは、時給と残業時間を入力するだけで、
+    25%割増の残業時給と残業代合計を自動計算できます。
+  </p>
+</section>
+
+<section className="mt-10 rounded-xl border bg-white p-5">
+  <h2 className="mb-3 text-lg font-bold">ほかの便利ツール</h2>
+
+  <div className="grid gap-2 text-sm text-blue-600 underline">
+    <a href="https://wage-calc-tawny.vercel.app/">
+      時給計算ツール
+    </a>
+
+    <a href="#">
+      手取り計算ツール（準備中）
+    </a>
+
+    <a href="#">
+      年収計算ツール（準備中）
+    </a>
+  </div>
+</section>
+
+<section className="mt-10 bg-white rounded-xl p-6">
+  <p className="text-sm text-gray-700 leading-7">
+    このサイトでは、仕事・給与・副業に役立つ無料計算ツールを公開しています。
+    時給計算・残業代計算・手取り計算・年収計算など、
+    日々の収入確認に便利なツールを今後追加していきます。
+  </p>
+</section>
+
+<div className="mt-6 text-center">
+  <a
+    href="/privacy-policy"
+    className="text-sm text-blue-600 underline"
+  >
+    プライバシーポリシー
+  </a>
+</div>
+
+<footer className="mt-6 text-center text-sm text-gray-500">
+  ANT FARM Project | Colony B
+</footer>
+      </div>
     </div>
   );
 }

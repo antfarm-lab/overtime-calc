@@ -91,7 +91,55 @@ export default function Home() {
     25%割増の残業時給と残業代合計を自動計算できます。
   </p>
 </section>
+<section className="mt-12 text-left max-w-3xl mx-auto space-y-6">
 
+  <div>
+    <h2 className="text-2xl font-bold mb-3">
+      残業代計算ツールの使い方
+    </h2>
+    <p>
+      この残業代計算ツールは、時給・残業時間・割増率を入力するだけで、
+      残業代の目安を自動計算できる無料ツールです。
+      アルバイト、パート、会社員の残業代確認に使えます。
+    </p>
+  </div>
+
+  <div>
+    <h2 className="text-2xl font-bold mb-3">
+      こんな人におすすめ
+    </h2>
+    <p>
+      残業代がいくらになるか確認したい方、給与明細の金額をチェックしたい方、
+      副業やアルバイトで追加収入を計算したい方におすすめです。
+      事前に残業代を把握することで、収入の見通しを立てやすくなります。
+    </p>
+  </div>
+
+  <div>
+    <h2 className="text-2xl font-bold mb-3">
+      計算例
+    </h2>
+    <p>
+      例えば時給1200円で残業時間が10時間、割増率が25%の場合、
+      残業代は15,000円になります。
+      通常時給だけでなく、割増率を含めた金額を確認できます。
+    </p>
+  </div>
+
+  <div>
+    <h2 className="text-2xl font-bold mb-3">
+      よくある質問
+    </h2>
+    <p>
+      Q. 割増率は変更できますか？<br />
+      A. はい。25%、35%、50%など任意の割増率で計算できます。<br /><br />
+
+      Q. 給与明細の確認にも使えますか？<br />
+      A. はい。実際の給与明細と照らし合わせる目安として使えます。
+    </p>
+  </div>
+
+</section>
 <section className="mt-10 rounded-xl border bg-white p-5">
  <h2 className="text-xl font-bold mb-3">
   他の便利ツール

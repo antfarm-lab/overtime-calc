@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   description:
     "時給と残業時間を入力するだけで残業代を自動計算できる無料ツール。25%割増計算に対応。",
 
+    verification: {
+  google: "miCxwdbgRhGe66W37cjiBB0MFNO1tB2WJxh9Dm_zTjc",
+},
   keywords: [
     "残業代計算",
     "残業計算",

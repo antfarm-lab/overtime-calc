@@ -67,11 +67,22 @@ export default function Home() {
           </button>
 
           {overtimeRate !== null && overtimePay !== null && (
-            <div className="mt-6 space-y-2 text-lg font-bold">
-              <p>残業時給：¥{overtimeRate.toLocaleString()}</p>
-              <p>残業代合計：¥{overtimePay.toLocaleString()}</p>
-            </div>
-          )}
+  <div className="mt-6 rounded-xl bg-gray-50 p-5">
+    <p className="text-sm text-gray-600">
+      時給{Number(wage).toLocaleString()}円 × 25%割増 × 残業{hours}時間
+    </p>
+
+    <p className="mt-4 text-sm text-gray-600">残業時給</p>
+    <p className="text-2xl font-bold">
+      {overtimeRate.toLocaleString()}円
+    </p>
+
+    <p className="mt-4 text-sm text-gray-600">残業代合計</p>
+    <p className="text-3xl font-bold">
+      {overtimePay.toLocaleString()}円
+    </p>
+  </div>
+)}
         </div>
 <section className="mt-10 bg-white rounded-xl p-6">
   <h2 className="text-xl font-bold mb-4">
@@ -98,10 +109,10 @@ export default function Home() {
       残業代計算ツールの使い方
     </h2>
     <p>
-      この残業代計算ツールは、時給・残業時間・割増率を入力するだけで、
-      残業代の目安を自動計算できる無料ツールです。
-      アルバイト、パート、会社員の残業代確認に使えます。
-    </p>
+  この残業代計算ツールは、時給と残業時間を入力するだけで、
+  25%割増で計算した残業時給と残業代の目安を自動計算できる無料ツールです。
+  アルバイト、パート、会社員の残業代確認に使えます。
+</p>
   </div>
 
   <div>
@@ -125,14 +136,33 @@ export default function Home() {
       通常時給だけでなく、割増率を含めた金額を確認できます。
     </p>
   </div>
+<div>
+  <h2 className="text-2xl font-bold mb-3">
+    残業代の計算方法
+  </h2>
 
+  <p className="mb-3">
+    このツールでは、通常の時給に25%の割増を加えて残業時給を計算し、
+    残業時間を掛けて残業代の目安を算出しています。
+  </p>
+
+  <ul className="list-disc pl-6 space-y-2">
+    <li>残業時給 ＝ 通常時給 × 1.25</li>
+    <li>残業代 ＝ 残業時給 × 残業時間</li>
+  </ul>
+
+  <p className="mt-3 text-sm text-gray-600">
+    実際の割増率や残業代の計算方法は、勤務条件や時間帯などによって異なる場合があります。
+    このツールの結果は目安としてご利用ください。
+  </p>
+</div>
   <div>
     <h2 className="text-2xl font-bold mb-3">
       よくある質問
     </h2>
     <p>
-      Q. 割増率は変更できますか？<br />
-      A. はい。25%、35%、50%など任意の割増率で計算できます。<br /><br />
+     Q. 割増率は変更できますか？<br />
+A. いいえ。このツールでは25%割増で固定して計算しています。<br /><br />
 
       Q. 給与明細の確認にも使えますか？<br />
       A. はい。実際の給与明細と照らし合わせる目安として使えます。

@@ -7,13 +7,41 @@ export default function Home() {
   const [hours, setHours] = useState("");
   const [overtimeRate, setOvertimeRate] = useState<number | null>(null);
   const [overtimePay, setOvertimePay] = useState<number | null>(null);
+  const score =
+  overtimePay === null
+    ? 0
+    : overtimePay >= 50000
+    ? 100
+    : overtimePay >= 30000
+    ? 90
+    : overtimePay >= 20000
+    ? 80
+    : overtimePay >= 10000
+    ? 70
+    : overtimePay >= 5000
+    ? 60
+    : 50;
+
+const stars =
+  score >= 90 ? 5 :
+  score >= 80 ? 4 :
+  score >= 70 ? 3 :
+  score >= 60 ? 2 : 1;
+
+const rank =
+  score >= 90 ? "S" :
+  score >= 80 ? "A" :
+  score >= 70 ? "B" :
+  score >= 60 ? "C" : "D";
+  const [premiumPercent, setPremiumPercent] = useState("25");
 
   const calculate = () => {
     const w = Number(wage);
-    const h = Number(hours);
+const h = Number(hours);
+const premium = Number(premiumPercent) || 0;
 
-    const rate = w * 1.25;
-    const pay = rate * h;
+const rate = w * (1 + premium / 100);
+const pay = rate * h;
 
     setOvertimeRate(rate);
     setOvertimePay(pay);
@@ -24,10 +52,46 @@ export default function Home() {
     setHours("");
     setOvertimeRate(null);
     setOvertimePay(null);
+    setPremiumPercent("25");
   };
-
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "割増率は変更できますか？",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "はい。このツールでは25%・50%・60%の割増率を選択して計算できます。",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "給与明細の確認にも使えますか？",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "はい。実際の給与明細と照らし合わせる目安として利用できます。",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "残業時間は1分単位で計算されますか？",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "原則として労働時間は1分単位で計算します。1日ごとに15分・30分未満を一律に切り捨てる処理は認められていません。ただし、1か月の時間外労働などの合計時間については、30分未満を切り捨て、30分以上を1時間に切り上げる端数処理が認められています。",
+      },
+    },
+  ],
+};
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
+      <script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify(faqStructuredData),
+  }}
+/>
       <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow p-6 w-full">
 
         <h1 className="text-3xl font-bold text-center mb-6">
@@ -51,7 +115,36 @@ export default function Home() {
             onChange={(e) => setHours(e.target.value)}
             className="w-full border p-3 rounded"
           />
+<div>
+  <label className="mb-1 block text-sm text-gray-600">
+    割増率（%）
+  </label>
 
+  <input
+    type="number"
+    value={premiumPercent}
+    onChange={(e) => setPremiumPercent(e.target.value)}
+    className="w-full border p-3 rounded"
+    placeholder="例：25"
+  />
+
+  <div className="mt-2 grid grid-cols-3 gap-2">
+    {["25", "35", "50"].map((value) => (
+      <button
+        key={value}
+        type="button"
+        onClick={() => setPremiumPercent(value)}
+        className={`rounded-lg border px-3 py-2 text-sm font-bold ${
+          premiumPercent === value
+            ? "border-black bg-black text-white"
+            : "border-gray-300 bg-white text-gray-700"
+        }`}
+      >
+        {value}%
+      </button>
+    ))}
+  </div>
+</div>
           <button
             onClick={calculate}
             className="w-full bg-blue-600 text-white p-3 rounded"
@@ -69,8 +162,8 @@ export default function Home() {
           {overtimeRate !== null && overtimePay !== null && (
   <div className="mt-6 rounded-xl bg-gray-50 p-5">
     <p className="text-sm text-gray-600">
-      時給{Number(wage).toLocaleString()}円 × 25%割増 × 残業{hours}時間
-    </p>
+  時給{Number(wage).toLocaleString()}円 × {premiumPercent}%割増 × 残業{hours}時間
+</p>
 
     <p className="mt-4 text-sm text-gray-600">残業時給</p>
     <p className="text-2xl font-bold">
@@ -81,6 +174,44 @@ export default function Home() {
     <p className="text-3xl font-bold">
       {overtimePay.toLocaleString()}円
     </p>
+    <div className="mt-4 rounded-xl border bg-white p-5">
+  <p className="text-xs font-bold text-gray-500">
+    ANT FARM SCORE
+  </p>
+
+  <div className="mt-2 flex items-end justify-between">
+    <div>
+      <span className="text-3xl font-bold">{score}</span>
+      <span className="text-sm text-gray-500"> /100</span>
+    </div>
+
+    <div className="text-yellow-500">
+      {"★".repeat(stars)}
+      <span className="text-gray-300">
+        {"★".repeat(5 - stars)}
+      </span>
+    </div>
+  </div>
+
+  <p className="mt-1 text-sm font-bold">
+    ランク：{rank}
+  </p>
+
+  <div className="mt-4 border-t pt-4">
+    <p className="text-xs font-bold text-gray-500">
+      SCORE基準
+    </p>
+
+    <ul className="mt-2 space-y-1 text-xs text-gray-600">
+      <li>★★★★★：50,000円以上</li>
+      <li>★★★★★：30,000円以上</li>
+      <li>★★★★☆：20,000円以上</li>
+      <li>★★★☆☆：10,000円以上</li>
+      <li>★★☆☆☆：5,000円以上</li>
+      <li>★☆☆☆☆：5,000円未満</li>
+    </ul>
+  </div>
+</div>
   </div>
 )}
         </div>
@@ -98,9 +229,10 @@ export default function Home() {
   </p>
 
   <p>
-    この残業代計算ツールでは、時給と残業時間を入力するだけで、
-    25%割増の残業時給と残業代合計を自動計算できます。
+   この残業代計算ツールでは、時給と残業時間を入力するだけで、
+25%・50%・60%の割増率に応じた残業時給と残業代合計を自動計算できます。
   </p>
+ 
 </section>
 <section className="mt-12 text-left max-w-3xl mx-auto space-y-6">
 
@@ -167,6 +299,13 @@ A. いいえ。このツールでは25%割増で固定して計算していま�
       Q. 給与明細の確認にも使えますか？<br />
       A. はい。実際の給与明細と照らし合わせる目安として使えます。
     </p>
+    <br /><br />
+
+Q. 残業時間は1分単位で計算されますか？<br />
+A. 原則として労働時間は1分単位で計算します。
+1日ごとに15分・30分未満を一律に切り捨てる処理は認められていません。
+ただし、1か月の時間外労働などの合計時間については、
+30分未満を切り捨て、30分以上を1時間に切り上げる端数処理が認められています。
   </div>
 
 </section>
